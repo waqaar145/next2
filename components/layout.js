@@ -1,3 +1,4 @@
+import './../assets/main.css'
 const Layout = (props) => {
 
   return (

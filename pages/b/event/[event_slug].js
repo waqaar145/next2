@@ -15,12 +15,14 @@ const SingleEvent = ({result, origin}) => {
     )
   }
   let event = result.data.paid_event_data;
+
+  console.log(`${origin}/b/event/${event.slug}`)
   return (
     <Layout>
       <NextSeo
         openGraph={{
           type: 'website',
-          url: `${origin}/b/event/${event.id}`,
+          url: `${origin}/b/event/${event.slug}`,
           title: event.event_name,
           description: event.description,
           images: [
@@ -63,9 +65,10 @@ SingleEvent.getInitialProps = async ({query, req, res}) => {
   })
   try {
     let data = {
-      id: query.event_slug
+      slug: query.event_slug
     }
-    let result = await axios.post('https://staging.nhancego.com/api/paid_events/details/', data, { httpsAgent: agent });
+    console.log(data)
+    let result = await axios.post('https://staging.nhancego.com/api/paid_events/retrieve_slug/', data, { httpsAgent: agent });
     return { result: result.data, origin: req.headers.host }
   } catch (err) {
     return {result: 'error'}
